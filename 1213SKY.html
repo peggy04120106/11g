@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>New York</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!--search:cdnjs=>search:font=>copy 第一個網址=>放入這邊-->
+	<style>
+       @import url('https://fonts.googleapis.com/css?family=Bree+Serif|Lobster|Shadows+Into+Light');
+        @import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+        /*要能套用google雲端字體要加入他的@import*/
+
+		*{
+              font-family:"Bree+Serif|Lobster|Shadows+Into+Light","Noto Sans TC"; /*前面改英文字 後面中文字*/
+		}
+		body,h1,h2,h3,h4,h5,h6,ul,li,p{
+              margin:0;
+              padding:0;
+		}
+        .clearfix::after{
+        	content:"";
+        	display:block;
+        	clear:both;
+        } 
+        a{
+        	text-decoration: none;
+        	color:#000;
+        }
+        img{
+        	width:100%;   /*圖片滿版*/
+        }
+        .fixed-width{      /*控制文字及圖片不要超出的寬度*/
+        	width:955px;
+        	margin:auto;
+        }
+        .full-width{       /*背景滿版*/
+        	width:100%;
+        }
+        .col-2{
+        	width:calc(50% - 30px);  /*calc自動計算函數( 兩張圖片並排寬度100%分兩半50%，下面margin左右各設定15px所以兩邊扣30px)*/
+        	float:left;      /*讓他浮動並排再一起*/
+        	margin:0 15px;
+        }
+        .col-3{
+        	width:calc(100%/3 - 30px); /*三張並排所以用100%分三份，每一張依樣扣兩邊margin*/ 
+        	float:left;
+        	margin:0 15px;
+        }
+        .col-4{
+        	width:calc(100%/4 - 30px);
+        	float:left;
+        	margin:0 15px;
+        }
+        .wraper{
+            background-image:url(image/skyscraper-building-city-2.jpg);
+            background-repeat: no-repeat;
+            -webkit-background-size: cover;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        nav{
+        	background-color: transparent; /*背景透明*/
+            position:fixed;
+            z-index: 9; /*LOGO被蓋掉了，讓他跑到最前面(因為設定相對定位)*/
+
+        }
+      
+        nav .logo{
+        	float:left;
+        	height:48px;         /*原本hieght和line-height是70px，70-(看F12border)-自己設定的margin10x2=48*/
+        	line-height:48px;  /*垂直致中*/
+        	color:#FFF;
+        	font-size:20px;
+        	border:3px solid #FFF;
+        	font-weight:600;
+        	margin:10px 0; 
+        	padding:0 10px;
+        }
+        nav .orange{
+        	color:#CCC;          
+        }
+        nav ul{
+        	float: right;
+        }
+        nav li{
+        	list-style-type: none;
+        	float: left;            
+        }
+        
+        nav li a{
+        	display: block;
+        	height: 70px;
+        	line-height: 70px;   /*Block裡面垂直致中  (vertical-align適用在很多東西並排再一起會以最長的來做致中*/
+        	color:#FFF;
+        	text-align: center;  /*Block裡面文字水平致中*/
+        	padding-left:15px;
+        }
+
+        header{
+        	
+        	padding:200px 0 550px 0; /*height:2200px也可，但是用padding的話後面要加文字可以直接置中*/
+            /*position:relative;  /*和Menu作相對絕對定位*/
+        }
+        header .title{
+            text-align: center;
+        }
+        header .title h1{
+            font-size:36px;
+            color:#fff;
+        }
+        header .title hr{
+            width:200px;    /*想照示範網站的長度可以去網頁案*/
+            height:1px;
+            background-color: #FFF;/*因為底線給他寬度會變空心，所以給顏色*/
+            border:0; /*讓他像陰影的邊框不見*/
+        }
+        header .title h3{
+            font-size: 24px;
+            color:#FFF;
+            font-style: italic; /*斜體*/
+        }
+        header .title a,header .orangeblock .right a{        
+            /*把orange裡的a按鈕依樣套入，因為是依樣的按鈕*/
+            display:block;
+            width: 86px;
+            text-align: center;            
+            height: 25px;
+            line-height: 25px;
+            background-color:rgba(255,255,255,.5);
+            padding:10px 20px;
+            margin:auto;
+            margin-top:50px;
+            border-radius:5px;
+            transition:all .3s;
+        }
+        header .orangeblock .right a:hover{
+            background-color: #CCC; /*打開色盤後用滴管吸色*/
+        }
+        header .title a:hover{
+            background-color: #2CF; /*打開色盤後用滴管吸色*/
+        }
+
+        header .menu{
+            color:#FFF;
+            text-align:center;
+            margin-top:30px;
+            /*position:absolute;*/
+            /*bottom:40px; 和header作相對絕對位置，從底部20PX算起*/*/
+        }
+        header .icon{
+            border-radius: 50%;
+            border:1px solid #FFF;
+            padding:10px;
+            margin-bottom: 20px; /*讓按鈕下面不要離字太近*/
+        }
+        header .menu .col-3{
+            transition:all .3s;
+            padding:10px;
+            -webkit-box-sizing: border-box;  /*讓BOX有固定的外框自己設定內具部會擠壓變兩行*/
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+
+        }
+
+        header .menu .col-3:hover{
+            background-color:rgba(0,0,0,0.5);
+        }
+        .orangeblock{
+            height: 150px;
+            background-color: #FEC;
+            margin-top:100px;
+        }
+        .orangeblock .left{
+            float:left;
+            font-size:22px;
+            color:#666;
+            line-height:150px;
+        }
+        .orangeblock .right{
+            float:right;
+            /*line-height:150px;*/
+        }
+        .orangeblock .right a{
+            font-size:14px;
+            margin-top:62.5px;  /*(150-25)/2*/
+        }
+
+
+
+        header .what{
+            text-align:center;
+        }  
+        header .what h2{
+            margin:30px 0 15px 0;
+            font-size:36px; 
+            color:#FFF;
+        } 
+        header .what h4{
+             margin:15px 0 60px 0;
+            font-size: 18px;
+            color:#FFF;
+        }  
+        .what .col-3{
+            background-color: #fff;
+            padding:10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            margin-top:15px;
+            margin-bottom:15px;   /*設定15px跟上面col-3依樣這樣排列比較一致*/
+        } 
+        .what .col-3 h5{
+            margin:5px 0;
+            color:rgba(0,0,0,0.7);
+            font-size:20px;
+        }
+        .what .col-3 p{
+            font-size:12px ;
+            color:rgba(0,0,0,0.7);
+        }
+        .what .icon_what{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #9DE;
+            line-height: 50px;  /*讓他對齊*/
+            color:#222 ;
+        }
+
+
+	</style>
+</head>
+<body>
+	<!-- nav.full-width>.fixed-width>.logo+ul>li*8>a  打完案TAB變下面(看網站架構有8個選單)-->
+<div class="wrapper">          <!-- 把整個Body包住做背景的輪播 -->
+	<nav class="full-width clearfix">  <!--讓電腦知道他是選單-->
+		<div class="fixed-width">
+			<div class="logo">FEATURE<span class="orange">D</span></div>
+			<ul>
+				<li><a href="">Home</a></li>
+				<li><a href="">Service</a></li>
+				<li><a href="">About us</a></li>
+				<li><a href="">Team</a></li>
+				<li><a href="">Store</a></li>
+				<li><a href="">Testimonial</a></li>
+				<li><a href="">News</a></li>
+				<li><a href="">Contact</a></li>
+			</ul>
+		</div>
+	</nav>
+	<header class="full-width">
+     <div class="title">
+            <h1>Beautiful WordPress Business Theme</h1>
+            <hr>
+            <h3>Cleanly Coded With User Frindly Interface</h3>
+            <a href="">Buy Now</a>
+        </div> 
+        <!--.menu>-col-3*3>.icon+h4+p-->
+        <div class="menu fixed-width clearfix">
+            <div class="col-3">
+                <div class="icon fa fa-camera-retro fa-3x"></div> <!--按鈕圖案的名字加在class裡面-->
+                <h4>Parallax Effect</h4>
+                <p>Lorem ipsum dolor sit amet</p>
+            </div>
+            <div class="col-3">
+                <div class="icon fa fa-heartbeat fa-3x"></div>
+                <h4>Unlimited Options</h4>
+                <p>Lorem ipsum dolor sit amet </p>
+            </div>
+            <div class="col-3">
+                <div class="icon fa fa-tree fa-3x"></div>
+                <h4>Responsice Design</h4>
+                <p>Lorem ipsum dolor sit amet </p>
+            </div>
+        </div> 
+        <div class="orangeblock">
+            <div class="fixed-width">   <!--給他fixed width這樣兩旁邊就會依樣對其-->
+            <div class="left">Easy to step up, just take a few steps and your website is ready within a minute</div>
+            <div class="right"><a href="">Call to Action</a></div> <!--a是按鈕有連結-->
+            </div>
+        </div> 
+<div class="what">
+            <h2>What We Do</h2>
+            <h4>This is SubTitle</h4>
+            <div class="fixed-width">            
+            <!-- .col-3*6>.icon_what+h5+p{Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate} -->
+            
+            <div class="col-3">
+                <div class="icon_what fa fa-universal-access fa-2x"></div>
+                <h5>Frequently Asked Question</h5>
+                <p>Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate</p>
+            </div>
+            <div class="col-3">
+                <div class="icon_what fa fa-umbrella fa-2x"></div>
+                <h5>Free Training & Courses</h5>
+                <p>Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate</p>
+            </div>
+            <div class="col-3">
+                <div class="icon_what fa fa-diamond fa-2x"></div>
+                <h5>Clean Code</h5>
+                <p>Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate</p>
+            </div>
+            <div class="col-3">
+                <div class="icon_what fa fa-shopping-basket fa-2x"></div>
+                <h5>Only Good In PayPal</h5>
+                <p>Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate</p>
+            </div>
+            <div class="col-3">
+                <div class="icon_what fa fa-eyedropper fa-2x"></div>
+                <h5>Production Graph</h5>
+                <p>Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate</p>
+            </div>
+            <div class="col-3">
+                <div class="icon_what fa fa-taxi fa-2x"></div>
+                <h5>Marketing Strategy</h5>
+                <p>Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate</p>
+            </div>
+          </div>
+        </div>    
+    </header>
+</div>	
+</body>
+</html>

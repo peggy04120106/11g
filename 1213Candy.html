@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Candy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!--search:cdnjs=>search:font=>copy 第一個網址=>放入這邊-->
+	<style>
+        @import url('https://fonts.googleapis.com/css?family=Pangolin');
+        @import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+        /*要能套用google雲端字體要加入他的@import*/
+
+		*{
+              font-family:"Pangolin","Noto Sans TC"; /*前面改英文字 後面中文字*/
+		}
+		body,h1,h2,h3,h4,h5,h6,ul,li,p{
+              margin:0;
+              padding:0;
+		}
+        .clearfix::after{
+        	content:"";
+        	display:block;
+        	clear:both;
+        } 
+        a{
+        	text-decoration: none;
+        	color:#000;
+        }
+        img{
+        	width:100%;   /*圖片滿版*/
+        }
+        .fixed-width{      /*控制文字及圖片不要超出的寬度*/
+        	width:900px;
+        	margin:auto;
+        }
+        .full-width{       /*背景滿版*/
+        	width:100%;
+        }
+        .col-2{
+        	width:calc(50% - 30px);  /*calc自動計算函數( 兩張圖片並排寬度100%分兩半50%，下面margin左右各設定15px所以兩邊扣30px)*/
+        	float:left;      /*讓他浮動並排再一起*/
+        	margin:0 15px;
+        }
+        .col-3{
+        	width:calc(100%/3 - 30px); /*三張並排所以用100%分三份，每一張依樣扣兩邊margin*/ 
+        	float:left;
+        	margin:0 15px;
+        }
+        .col-4{
+        	width:calc(100%/4 - 30px);
+        	float:left;
+        	margin:0 15px;
+        }
+
+        nav{
+        	background-color: transparent; /*背景透明*/
+            position:fixed;
+            z-index: 9; /*LOGO被蓋掉了，讓他跑到最前面(因為設定相對定位)*/
+
+        }
+      
+        nav .logo{
+        	float:left;
+        	height:48px;         /*原本hieght和line-height是70px，70-(看F12border)-自己設定的margin10x2=48*/
+        	line-height:48px;  /*垂直致中*/
+        	color:#FFF;
+        	font-size:20px;
+        	border:3px solid #FFF;
+        	font-weight:600;
+        	margin:10px 0; 
+        	padding:0 10px;
+        }
+        .wraper{
+            background-image:url(image/candy.jpg);  
+            background-repeat: no-repeat;
+            -webkit-background-size: cover;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        nav .orange{
+        	color:#F70;          
+        }
+        nav ul{
+        	float: right;
+        }
+        nav li{
+        	list-style-type: none;
+        	float: left;            
+        }
+        
+        nav li a{
+        	display: block;
+        	height: 70px;
+        	line-height: 70px;   /*Block裡面垂直致中  (vertical-align適用在很多東西並排再一起會以最長的來做致中*/
+        	color:#FFF;
+        	text-align: center;  /*Block裡面文字水平致中*/
+        	padding-left:15px;
+        }
+        nav li a:hover{
+            color:#2CF;
+        }
+        nav ul #home{
+            color:#2CF;
+        }
+        nav ul #home:hover{
+            color:#AAA;
+        }
+
+        header{
+ /*       	background-image:url(image/candy.jpg);  一整段移到wraper裡面
+        	background-repeat: no-repeat;
+        	-webkit-background-size: cover;
+        	background-size: cover;
+            background-attachment: fixed;*/
+        	/*padding:200px 0 550px 0; height:2200px也可，但是用padding的話後面要加文字可以直接置中*/
+            /*position:relative;  /*和Menu作相對絕對定位*/
+            padding-top: 150px;
+        }
+        header .title{
+            text-align: center;
+        }
+        header .title h1{
+            font-size:36px;
+            color:#fff;
+        }
+        header .title hr{
+            width:200px;    /*想照示範網站的長度可以去網頁案*/
+            height:1px;
+            background-color: #FFF;/*因為底線給他寬度會變空心，所以給顏色*/
+            border:0; /*讓他像陰影的邊框不見*/
+        }
+        header .title h3{
+            font-size: 24px;
+            color:#FFF;
+            font-style: italic; /*斜體*/
+        }
+        header .title a,header .orangeblock .right a,.welcome a, .store .col-3 a,.touch input[type="submit"]{        
+            /*把orange裡的a按鈕依樣套入，因為是依樣的按鈕*/
+            display:block;
+            width: 86px;
+            text-align: center;            
+            height: 25px;
+            line-height: 25px;
+            background-color:rgba(255,255,255,.5);
+            padding:10px 20px;
+            margin:auto;
+            margin-top:50px;
+            border-radius:5px;
+            transition:all .3s;
+        }
+        header .orangeblock .right a:hover{
+            background-color: #CCC; /*打開色盤後用滴管吸色*/
+        }
+        header .title a:hover{
+            background-color: #2CF; /*打開色盤後用滴管吸色*/
+        }
+
+        header .menu{
+            color:#FFF;
+            text-align:center;
+            margin-top:30px;
+            /*position:absolute;*/
+            /*bottom:40px; 和header作相對絕對位置，從底部20PX算起*/*/
+        }
+        header .icon{
+            border-radius: 50%;
+            border:1px solid #FFF;
+            padding:10px;
+            margin-bottom: 20px; /*讓按鈕下面不要離字太近*/
+        }
+        header .menu .col-3{
+            transition:all .3s;
+            padding:10px;
+            -webkit-box-sizing: border-box;  /*讓BOX有固定的外框自己設定內具部會擠壓變兩行*/
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+
+        }
+
+        header .menu .col-3:hover{
+            background-color:rgba(0,0,0,0.5);
+        }
+        .orangeblock{
+            height: 150px;
+            background-color: #2CF;
+            margin-top:100px;
+        }
+        .orangeblock .left{
+            float:left;
+            font-size:22px;
+            color:#FFF;
+            line-height:150px;
+        }
+        .orangeblock .right{
+            float:right;
+            /*line-height:150px;*/
+        }
+        .orangeblock .right a{
+            font-size:14px;
+            margin-top:62.5px;  /*(150-25)/2*/
+        }
+
+
+
+        header .what{
+            text-align:center;
+            margin-bottom: 50px;
+        }  
+        header .what h2{
+            margin:30px 0 15px 0;
+            font-size:36px; 
+            color:#FFF;
+        } 
+        header .what h4{
+             margin:15px 0 60px 0;
+            font-size: 18px;
+            color:#FFF;
+        }  
+        .what .col-3{
+            background-color: #fff;
+            padding:10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            margin-top:15px;
+            margin-bottom:15px;   /*設定15px跟上面col-3依樣這樣排列比較一致*/
+        } 
+        .what .col-3 h5{
+            margin:5px 0;
+            color:rgba(0,0,0,0.7);
+            font-size:20px;
+        }
+        .what .col-3 p{
+            font-size:12px ;
+            color:rgba(0,0,0,0.7);
+        }
+        .what .icon_what{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #F8B ;
+            line-height: 50px;  /*讓他對齊*/
+            color:#FFF ;
+            font-size: 20px;
+            margin: 15px 0;
+            transition:all .3s;
+        }
+        .what .col-3:hover .icon_what{
+            background-color: #9EF;
+            color:#F00 ;
+        }
+        .about{
+            background-color: #FFF;
+            padding:40px 0;
+        }
+        .about h2{
+            font-size: 36px;
+        }
+        .about .col-2:nth-of-type(2){   /*指定第二個col-2就是圖片*/
+            padding:10px;
+            -webkit-box-sizing: border-box;     
+            /*讓他padding設定後部會因為寬度不夠就跑到下面*/
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .welcome{
+            padding: 45px;
+            text-align: center;
+            background-color: rgba(24,204,255,0.5);
+            
+        }
+    
+        .welcome p{
+            font-size:24px;
+            font-weight:600;
+        }
+        .fixed-width_600{
+            width: 600px;
+            margin:auto;
+        }
+        .welcome a,.store .col-3 a,.touch input[type="submit"]{
+            font-size: 12px;
+            background-color: #2CF;
+            padding:5px 10px;
+            color: #FFF;
+            transition:all .3s;          
+        }
+        .welcome a:hover{
+            background-color:#39C;
+        }
+        .team ,.happy{
+            padding:50px 0;
+            background-color: #FFF;
+        }
+        .team h1,.store h1,.happy h1, .news h1,.touch h1 {
+            text-align: center;
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+        .team h4,.store h4,.happy h4, .news h4,.touch h4{
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+        .team .col-4{
+            height: 300px; 
+            background-repeat: no-repeat;
+            -webkit-background-size:cover;
+            background-size:cover; 
+
+            position:relative; /*對應team job和.team .name,.team .desc,.team .icon*/  
+            overflow:hidden;   /*讓超出框格的部分隱藏，因為我們做的斜的陰影是把它直的變斜的所以把多出來的藏起來看起來就斜斜的*/      
+        }
+        .team .col-4::before{
+            content:"";     /*只要有before和after都依定要給他content*/
+            display: block;
+            width: 95%;
+            height: 100%;
+            background-color: rgba(255,255,255,0.5);
+            z-index: 1;
+            transform: skewX(-30deg)translateX(-200px);  /*Skew(傾斜幾度)translateX(在X軸衡的上面移動)*/
+        }
+        .team .col-4:hover::before{
+            content:"";
+            transition:all .3s;
+            transform: skewX(-30deg)translateX(-30px);
+        }
+        .team .col-4:hover .name,
+        .team .col-4:hover .desc,
+        .team .col-4:hover .icon{
+            opacity: 1;            /*讓它出現透明度變1*/
+        }
+
+        .team .col-4:nth-of-type(1){
+            background-image: url(image/person-human-girl-pretty-face-view-eyes-hair.jpg);
+        }
+        .team .col-4:nth-of-type(2){
+            background-image: url(image/portrait-of-woman-in-hat.jpg);
+        }
+        .team .col-4:nth-of-type(3){
+            background-image: url(image/team-1-1.png);
+        }
+        .team .col-4:nth-of-type(4){
+            background-image: url(image/girl-model-woman-posture-pretty-hair-long-hair-1.jpg);
+        }
+        .team .job{
+            position:absolute;
+            bottom: 0;
+            padding: 5px;
+            text-align: right;
+            color:#FFF;
+            /*font-weight: 600;*/
+            width: 100%;   /* 讓下面的橫條可以和圖片依樣寬*/
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .team .col-4:nth-of-type(1) .job{
+            background-color: #3EC;
+        }
+        .team .col-4:nth-of-type(2) .job{
+            background-color: #ABF;
+        }
+        .team .col-4:nth-of-type(3) .job{
+            background-color: #CD4;
+        }
+        .team .col-4:nth-of-type(4) .job{
+            background-color: #FAE;
+        }
+        .team .name,.team .desc,.team .icon{
+            position:absolute;
+            left:25px;
+            width:150px;
+            top:17%;
+            opacity:0;  /*第一種完全透明:先把它變透明*/
+            /*display:none;  第二種透明方法*/
+            transition:all 0.3s 0.2s;  /*(出現的時間 Delay的時間)
+            對應到上面.team .col-4:hover .name,*/
+        }
+        .team .name{
+            font-size: 20px;
+            color:#666;
+        }
+        .team .desc{
+            top: 25%;
+            font-size: 14px;
+            color:#666;
+        }
+        .team .icon{
+            top: 50%;           
+        }
+        .team .icon span{
+            display:inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius:50%;
+            background-color: #fff; 
+            line-height: 30px;
+            text-align: center;
+            color:#FFF;
+       }
+       .team .col-4:nth-of-type(1) .icon span{
+            background-color: #3EC;
+       }
+       .team .col-4:nth-of-type(2) .icon span{
+            background-color: #ABF;
+       }
+       .team .col-4:nth-of-type(3) .icon span{
+            background-color: #CD4;
+       }
+       .team .col-4:nth-of-type(4) .icon span{
+            background-color: #FAE;
+       }
+
+       .store{
+            padding:50px 0;
+       }
+       .store h1, .store h4,.news h1,.news h4,.touch h1,.touch h4{
+            color:#FFF;
+       }
+       .store .col-3{
+            height: 400px;
+            position:relative;
+            background-repeat: no-repeat;
+            -webkit-background-size: cover;
+            background-size: cover;
+            /*background-position:center;*/
+       }
+       .store .col-3:nth-of-type(1){
+            background-image: url(image/dessert-healthy-strawberries-cream-yogurt-cookies.jpg);
+       }
+       .store .col-3:nth-of-type(2){
+            background-image: url(image/chocolate-cocktail-strawberry.jpg);
+       }
+       .store .col-3:nth-of-type(3){
+            background-image: url(image/12768864703_3292944c83_z.jpg);
+       }
+       .store .col-3::before{
+            content:"";
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.75);
+            position:absolute;
+            opacity: 0;
+            transition:all 0.3s 0.3s;
+       }
+       .store .col-3:hover::before{
+            opacity: 1;
+       }
+       .store .col-3:hover a,.store .col-3:hover .price{  /*滑鼠滑過col-3裡面的a和滑鼠滑過col-3裡面的price時*/
+            opacity: 1;
+       }
+
+       .store .col-3 a{
+            position:absolute;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0;
+            margin:auto;
+            opacity: 0;
+            transition:all 0.3s;
+       }
+       .store .col-3 .price{
+            position:absolute;
+            top:75%;
+            text-align:center; 
+            width: 100%; /*寬度要滿版才能水平致中*/ 
+            font-weight: 600;
+            color:#fff;
+            opacity: 0;
+            transition:all 0.3s;
+       }
+       .store .col-3 .title{
+            position:absolute;
+            bottom:0;
+            width: 100%;
+            text-align: center;
+            color:#FFF;
+            background-color: rgba(0,0,0,0.8);
+            padding:10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+       }
+       .happy .col-3{
+            padding: 15px;
+            background-color: #DDF;
+            box-shadow: 1px 0 5px rgba(0,0,0,0.5); /*水平偏移 垂直偏移 模糊度 陰影顏色也可#555*/
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            margin-top: 30px;
+            position:relative;     /*  一定是相對包絕對位置*/
+            /*height: 300px;*/
+       }
+       .happy .col-3 img{
+            display:block;
+            width: 81px;
+            height: 81px;
+            border-radius:50%;
+            border:2px solid #fff;
+            box-shadow: 0 0 0 2px #FAE;     /*1px延伸*/
+            position:relative;
+            margin:auto;
+            top:-65px;
+       }
+       .happy .col-3 p{
+            position:relative;
+            top:-40px;    /*往上移10px*/
+            font-style:italic;
+       }
+       .happy .quote{
+            position:absolute;
+            top:10px;
+            left:10px;
+       }
+       .happy .quote span{
+            font-size: 25px;
+            color:#F8F;
+       }
+       .happy .sign{
+            position:absolute;
+            right: 15px;
+            bottom: 15px;
+            font-size: 15px;
+            font-style:italic;
+            color:#F8F;
+            font-weight: 600;
+       }
+       .news{
+            padding: 100px 0;
+       }
+       .news .col-4{
+            margin:0;
+            width: 25%;
+            height: 200px;
+            background-repeat: no-repeat;
+            -webkit-background-size: cover;
+            background-size: cover;
+            background-position:center;
+            position:relative;
+            color:#FFF;
+            text-align: center;
+            overflow:hidden;
+       }
+       .news .col-4:nth-of-type(1){
+            background-image: url(image/hotel-bed-bedroom-room.jpg);
+        }
+       .news .col-4:nth-of-type(2){
+            background-image: url(image/book-coffee-bedroom.jpg);
+        }
+       .news .col-4:nth-of-type(3){
+            background-image: url(image/woman-sleeping-sofa-home-relaxing-break-interior.jpg);
+            }
+       .news .col-4:nth-of-type(4){
+            background-image: url(image/wall-bed-apartment-room-interior-design-decoration.jpg);
+        }
+        .news .box{
+            position:absolute;
+            top:175px;
+            transition:all 0.3s;
+        }
+        .news h3,.news p{              /* 如果是整個區塊要陰影就用box-shadow*/
+            text-shadow:1px 1px 5px #000;     
+        }
+        .news .col-4:hover .box{       /*因為是box要做動作所以transition放在BOX*/
+            top:50%
+        }
+        .touch{
+            padding: 100px 0;
+            background-color: rgba(0,0,0,.6);
+        }
+       .touch .col-2:nth-of-type(1){
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 15px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .touch h3{
+            text-align: center;
+            padding: 5px 0;
+        }
+        .touch input[type="text"],   /*[type=]:選取器*/
+        .touch input[type="email"],
+        .touch input[type="number"],
+        .touch textarea{
+            width: 100%;
+            height: 30px;
+            margin: 5px 0;
+            padding: 5px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            border:0;      /*先把都框線去掉*/
+            border-bottom:2px solid #ccc;
+            transition:all .3s;
+        }
+        .touch input[type="text"]:focus,  /*[type=]:選取器*/
+        .touch input[type="email"]:focus,
+        .touch input[type="number"]:focus,       /*focus:針對你點下去得東西會有藍色得框本就預設*/
+        .touch textarea:focus{        
+               outline:0;                       /*outline:外面的籃框線不要;*/
+               border-bottom: 2px solid #F90513;   /*剩 下框線*/
+        }
+        .touch textarea{
+            height: 180px;
+        }
+        .touch input[type="submit"]{
+            margin: 10px auto;
+            height: initial;             /*initial:還原，因為開頭時有給他line-height和height*/
+            line-height: initial;
+            padding: 10px 10px;
+        }
+        .touch .col-3{
+            color:#A5A5A5;
+            text-align: center;
+        }
+        .touch .icon_touch{
+            font-size:45px;
+            margin-bottom:20px;
+        }
+        .touch p{
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .touch .map{               /* 先把下面嵌入的地圖程式碼高度寬度刪掉*/
+            width: 100%;
+            height: 300px;            /*給MAP這個區塊設定高度寬度*/       
+        }
+        .touch .map iframe{         
+         /*設定我們(iframe)網路遷入的東西寬度高度100%符合我們上面給的MAP的寬跟高*/       
+            width: 100%;
+            height: 100%;
+        }
+	</style>
+</head>
+<body>
+	<!-- nav.full-width>.fixed-width>.logo+ul>li*8>a  打完案TAB變下面(看網站架構有8個選單)-->
+    <div class="wraper">     <!-- 把整個Body包住做背景的輪播 -->
+	<nav class="full-width clearfix">  <!--讓電腦知道他是選單-->
+		<div class="fixed-width">
+			<div class="logo">FEATURE<span class="orange">D</span></div>
+			<ul>
+				<li><a href="" id=home>Home</a></li>
+				<li><a href="">Service</a></li>
+				<li><a href="">About us</a></li>
+				<li><a href="">Team</a></li>
+				<li><a href="">Store</a></li>
+				<li><a href="">Testimonial</a></li>
+				<li><a href="">News</a></li>
+				<li><a href="">Contact</a></li>
+			</ul>
+		</div>
+	</nav>
+	<header class="full-width">
+     <div class="title">
+            <h1>Beautiful WordPress Business Theme</h1>
+            <hr>
+            <h3>Cleanly Coded With User Frindly Interface</h3>
+            <a href="">Buy Now</a>
+        </div> 
+        <!--.menu>-col-3*3>.icon+h4+p-->
+        <div class="menu fixed-width clearfix">
+            <div class="col-3">
+                <div class="icon fa fa-camera-retro fa-3x"></div> <!--按鈕圖案的名字加在class裡面-->
+                <h4>Parallax Effect</h4>
+                <p>Lorem ipsum dolor sit amet</p>
+            </div>
+            <div class="col-3">
+                <div class="icon fa fa-heartbeat fa-3x"></div>
+                <h4>Unlimited Options</h4>
+                <p>Lorem ipsum dolor sit amet </p>
+            </div>
+            <div class="col-3">
+                <div class="icon fa fa-tree fa-3x"></div>
+                <h4>Responsice Design</h4>
+                <p>Lorem ipsum dolor sit amet </p>
+            </div>
+        </div> 
+        <div class="orangeblock">
+            <div class="fixed-width">   <!--給他fixed width這樣兩旁邊就會依樣對其-->
+            <div class="left">Easy to step up, just take a few steps and your website is ready within a minute</div>
+            <div class="right"><a href="">Call to Action</a></div> <!--a是按鈕有連結-->
+            </div>
+        </div> 
+<div class="what clearfix">
+            <h2>What We Do</h2>
+            <h4>This is SubTitle</h4>
+            <div class="fixed-width">            
+            <!-- .col-3*6>.icon_what+h5+p{Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate} -->
+            
+            <div class="col-3">
+                <div class="icon_what fa fa-universal-access fa-2x"></div>
+                <h5>Frequently Asked Question</h5>
+                <p>Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate</p>
+            </div>
+            <div class="col-3">
+                <div class="icon_what fa fa-umbrella fa-2x"></div>
+                <h5>Free Training & Courses</h5>
+                <p>Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate</p>
+            </div>
+            <div class="col-3">
+                <div class="icon_what fa fa-diamond fa-2x"></div>
+                <h5>Clean Code</h5>
+                <p>Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate</p>
+            </div>
+            <div class="col-3">
+                <div class="icon_what fa fa-shopping-basket fa-2x"></div>
+                <h5>Only Good In PayPal</h5>
+                <p>Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate</p>
+            </div>
+            <div class="col-3">
+                <div class="icon_what fa fa-eyedropper fa-2x"></div>
+                <h5>Production Graph</h5>
+                <p>Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate</p>
+            </div>
+            <div class="col-3">
+                <div class="icon_what fa fa-taxi fa-2x"></div>
+                <h5>Marketing Strategy</h5>
+                <p>Aliquam varius ligula tempor, vehicula mauris sed, efficitur dui. Aenean euismod felis quis purus varius, nec laoreet leo mollis. Curabitur eget porta velit, non convallis velit. Aenean tempor rutrum ante at vulputate</p>
+            </div>
+</div>
+    </header>
+    <div class="about clearfix">
+        <div class="fixed-width">
+            <div class="col-2">
+                <h2>About Us</h2>
+                <p>Maecenas ac mollis nisl. Donec luctus massa mauris, sit amet sagittis purus imperdiet sit amet. Phasellus ac arcu mauris. Ut dui lorem, sollicitudin vitae sapien eget, pretium posuere tellus. Pellentesque condimentum diam venenatis nulla blandit, sed maximus lorem maximus. Vivamus facilisis massa orci, sed varius elit faucibus eu. Phasellus nec efficitur urna, interdum euismod tellus. Nunc ultricies euismod ipsum vel pulvinar. sollicitudin vitae sapien eget, pretium posuere tellus. Pellentesque condimentum diam venenatis nulla blandit, sed maximus lorem maximus. Vivamus facilisis massa orci, sed varius elit faucibus eu. Phasellus nec</p>
+            </div>
+            <div class="col-2">
+                <img src="image/white-flowered-red-white-red-cherry.jpg" alt="">
+            </div>
+        </div>
+    </div>
+
+    <div class="welcome">
+            <div class="fixed-width_600">
+            <p>We offer unlimited column option in our sections.Our support forum open for free users also.</p>
+            <a href="">WELCOME</a>
+            </div>
+    </div>
+    <div class="team clearfix">
+        <div class="fixed-width">
+            <h1>Meet our Team</h1>
+            <h4>This Is Subtitle</h4>
+            <div class="col-4">
+                <div class="name">Gabriel Labreez</div>
+                <div class="desc">Donec malesuada pellentesque eros, eu aliquam nunc scelerisque</div>
+                <div class="icon">
+                    <span class="fa fa-facebook"></span>
+                    <span class="fa fa-twitter"></span>
+                    <span class="fa fa-instagram"></span> 
+                </div>
+                <div class="job">Co-founder</div>
+            </div>
+            <div class="col-4">
+                <div class="name">Marie Stan</div>
+                <div class="desc">Donec malesuada pellentesque eros, eu aliquam nunc scelerisque</div>
+                <div class="icon">
+                    <span class="fa fa-facebook"></span>
+                    <span class="fa fa-twitter"></span>
+                    <span class="fa fa-instagram"></span>
+                </div>
+                <div class="job">HR Manager</div>
+            </div>
+            <div class="col-4">
+                <div class="name">Maurics Blac</div>
+                <div class="desc">Donec malesuada pellentesque eros, eu aliquam nunc scelerisque</div>
+                <div class="icon">
+                    <span class="fa fa-facebook"></span>
+                    <span class="fa fa-twitter"></span>
+                    <span class="fa fa-instagram"></span>
+                </div>
+                <div class="job">Developer</div>
+            </div>
+            <div class="col-4">
+                <div class="name">David Rasop</div>
+                <div class="desc">Donec malesuada pellentesque eros, eu aliquam nunc scelerisque</div>
+                <div class="icon">
+                    <span class="fa fa-facebook"></span>
+                    <span class="fa fa-twitter"></span>
+                    <span class="fa fa-instagram"></span>
+                </div>
+                <div class="job">Support Manager</div>
+            </div>
+        </div>
+    </div> <!--fixed-width-->
+
+    <!-- .store>.fixed-width>h1{Woo Store}+h4{This Is Subtitle}+.col-3*3>a+.price+.titile -->
+    <div class="store clearfix" >
+        <div class="fixed-width">
+            <h1>Woo Store</h1>
+            <h4>This Is Subtitle</h4>
+            <div class="col-3">
+                <a href="">Add To Cart</a>
+                <div class="price">&pound;111.00</div>  <!-- search:網站特殊字:加入&pound; -->
+                <div class="title">Black T-shirt</div>
+            </div>
+            <div class="col-3">
+                <a href="">Add To Cart</a>
+                <div class="price">&pound;324.00</div>
+                <div class="title">Red T-shirt</div>
+            </div>
+            <div class="col-3">
+                <a href="">Add To Cart</a>
+                <div class="price">&pound;214.00</div>
+                <div class="title">Round Neck T-shirt</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- .happy>fixed-width>h1{Happy Customers}+h4{This Is Subtitle}+.col-3*3>.quote+img+p+.sign+ -->
+    <div class="happy clearfix">
+        <fixed-width>
+            <h1>Happy Customers</h1>
+            <h4>This Is Subtitle</h4>
+            <div class="col-3">
+                <div class="quote"><span class="fa fa-quote-left"></span></div>
+                <img src="image/2847775046_65d6178582_z.jpg" alt="">
+                <p>I develop lots of websites with a vaiety of themes….the support I have had from ThemeHunk has been first class. Very quick, good support and always ready to correct my css errors!. They have tweaked the theme for me and have been great. Great support guys</p>
+                <div class="sign">Alex</div>
+            </div>
+            <div class="col-3">
+                <div class="quote"><span class="fa fa-quote-left"></span></div>
+                <img src="image/baby-day-dreaming-dribble-summer-hat-blue-eyes.jpg" alt="">
+                <p>I’m having issues with receiving a message from the contact form. I can send it successfully but I’m not receiving the test message. I was told to change my email address and it works. Thank you ThemeHunk for the great service. Excellent!</p>
+                <div class="sign">Josh</div>
+            </div>
+            <div class="col-3">
+                <div class="quote"><span class="fa fa-quote-left"></span></div>
+                <img src="image/portrait-of-baby-girl-in-angels-costume.jpg" alt="">
+                <p>I am a newbie to WordPress, with limited html and css experience. The Themehunk team has been there every step of the way to help me make a web site that I am truly proud of, and have helped to make me a better developer in the process.</p>
+                <div class="sign">Maria</div>
+            </div>
+        </fixed-width>
+    </div>
+
+   <!--  .news>h1{Latest News}+h4{This is Subtitle}+.col-4*4>.box>h3+p -->
+    <div class="news clearfix">
+        <h1>Latest News</h1>
+        <h4>This is Subtitle</h4>
+        <div class="col-4">
+            <div class="box">
+                <h3>Women Meeting</h3>
+                <p>Cras gravida suscipit sapien sed auctor. Mauris in luctus ante.</p>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="box">
+                <h3>Official Meet</h3>
+                <p>Quisque et dolor sit amet purus dictum finibus in ac dui. Sed ullamcorper porttitor tellus cursus facilisis. </p>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="box">
+                <h3>Interview Meet</h3>
+                <p>Duis eget ex non metus ornare lacinia. Nulla tempus nec erat a accumsan. </p>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="box">
+                <h3>Bussiness News</h3>
+                <p>Maecenas eget orci in purus placerat volutpat sit amet id leo.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- .touch>.fixed-width>h1+h4+col-2*2 -->
+    <div class="touch clearfix">
+        <div class="fixed-width">
+            <h1>Get In Touch</h1>
+            <h4>Any question?</h4>
+            <div class="col-2">
+                <form action="">
+                   <h3>Contact Us</h3>
+                   <div><input type="text" placeholder="Name"></div>
+                   <div><input type="email" placeholder="Email"></div>
+                   <div><input type="number" placeholder="phone"></div>
+                   <div><textarea placeholder="Message"></textarea></div>
+                   <input type="submit" value="Submit">
+                </form>
+            </div>
+
+            <div class="col-2 clearfix" >
+            <div class="col-3">
+                <div class="icon_touch fa fa-bell-o"></div>
+                    <p>+91 987654321</p>                
+            </div>
+            <div class="col-3">
+                <div class="icon_touch fa fa-commenting-o"></div>
+                    <p>92 Bayport Ave. South Richmond Hill, NY 11413</p>               
+            </div>
+            <div class="col-3">
+                <div class="icon_touch fa fa-taxi"></div>
+                    <p>info@themehunk.com</p>               
+            </div>
+            <div class="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3309.9819119788026!2d-118.41071868550594!3d33.941593331001876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2b0d213b24fb5%3A0x77a87b57698badf1!2sLos+Angeles+International+Airport!5e0!3m2!1sen!2stw!4v1514191562306" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer>fixed-width>.top>(.col-4*4>h5+ul>li)+.bottom>.copyright+.icon_footer -->
+    <footer>
+        <div class="fixed-width">
+            <div class="top clearfix">    <!--  因為col-4有浮動，所以在浮動的上一層清除浮動 -->
+                <div class="col-4">
+                    <h5>IMPORTANT LINKS</h5>
+                    <ul>
+                        <li>Affliates</li>
+                        <li>Privacy Policy</li>
+                        <li>Custom work</li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <h5>RECENT POSTS</h5>
+                    <ul>
+                        <li>Interview Meet</li>
+                        <li>Business News</li>
+                        <li>Coffee Timet</li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <h5>TAGS</h5>
+                    <ul>
+                        <li>Agency</li>
+                        <li>Business</li>
+                        <li>Meeting</li>
+                        <li>Offici</li>
+                        <li>Ontime</li>
+                        <li>Relax</li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <h5>ABOUT</h5>
+                    <ul>
+                        <li>Cras egestas lectus nec tortor cursus tristique. Maecenas id lacus quis nibh sollicitudin laoreet quis eget leo.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="copyright">Business onepage theme Powered by ThemeHunk</div>
+                <div class="icon_footer">
+                    <span class="fa fa-facebook"></span>
+                    <span class="fa fa-twitter"></span>
+                    <span class="fa fa-google-plus"></span>
+                    <span class="fa fa-behance"></span>
+                    <span class="fa fa-pinterest-p"></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>  <!--wraper-->	
+</body>
+</html>
